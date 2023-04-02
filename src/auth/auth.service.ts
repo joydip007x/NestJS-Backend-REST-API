@@ -1,12 +1,19 @@
+/* eslint-disable prettier/prettier */
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { AuthDto } from './dto';
 import * as argon from 'argon2';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
+import { JwtService } from '@nestjs/jwt/dist';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable({})
 export class AuthService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private jwt: JwtService,
+    private config: ConfigService,
+    ) {}
 
   async signup(dto: AuthDto) {
     //generate password hash
@@ -19,8 +26,7 @@ export class AuthService {
         },
         select: {
           id: true,
-          email: true,
-          createdAt: true,
+          email: true
         },
       });
       return user;
@@ -29,6 +35,8 @@ export class AuthService {
         if (error.code === 'P2002') {
           // eslint-disable-next-line prettier/prettier
           throw new ForbiddenException('Duplicate Credentials');
+        } else {
+          throw error;
         }
       }
       throw error;
@@ -50,9 +58,18 @@ export class AuthService {
     if (!passwordValid) {
       throw new ForbiddenException('Invalid Password');
     }
+    return this.signToken(user.id,user.email);
+  }
 
-    //dont Store user Password
-    delete user.password;
-    return user;
+signToken(userId: string,email: string): Promise<string>{
+    const payload = {
+      sub: userId,
+      email,
+    }
+    const secret= this.config.get('JWT_SECRET');
+    return this.jwt.signAsync(payload,{
+       expiresIn:'15m',
+       secret
+    })
   }
 }
