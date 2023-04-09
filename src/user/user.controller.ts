@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { 
-Body,Controller, Get, 
+Body,Controller, Delete, Get, 
 Patch, Req, UseGuards
 } 
 from '@nestjs/common';
@@ -11,6 +11,9 @@ import { GetUser } from 'src/auth/decorator';
 import { User } from '@prisma/client';
 import { EditUserDTO } from './dto';
 import { UserService } from './user.service';
+
+import {Csrf} from "ncsrf";
+
 
 @Controller('users')
 export class UserController {
@@ -28,6 +31,11 @@ export class UserController {
   editUser(@GetUser('id') userId:string, @Body() dto:EditUserDTO){
 
     return this.userService.editUser(userId, dto);
+  }
+
+  @Delete('token')
+  getCsrfToken(@Req() req) {
+    return req
   }
 
   

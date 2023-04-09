@@ -15,7 +15,7 @@ export const GetUser = createParamDecorator(
         .switchToHttp()
         .getRequest();
     
-    console.log('Get-User decorator', request.user);
+    console.log('Get-User decorator', request.user,"\nCookies :",request.cookies);
     if(data){
         return request.user[data];
     }
