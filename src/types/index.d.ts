@@ -16,5 +16,13 @@ declare namespace Express {
       id: string;
       email: string;
     };
+    [x: string]: any;
+  }
+
+  export interface Response {
+    [x: string]: any;
+    res: {
+      user: any;
+    };
   }
 }
