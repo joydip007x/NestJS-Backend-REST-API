@@ -21,4 +21,15 @@ declare namespace Express {
       instance;
     };
   }
+  export interface Response {
+    user: {
+      refresh_Token: string;
+      id: string;
+      email: string;
+    };
+    res: {
+      user: any;
+    };
+    [x: string]: any;
+  }
 }

@@ -4,6 +4,7 @@ ExecutionContext,
 createParamDecorator 
 } from "@nestjs/common";
 
+import { randomBytes } from 'crypto';
 
 export const GetUser = createParamDecorator(
 
@@ -16,6 +17,8 @@ export const GetUser = createParamDecorator(
         .getRequest();
     
     console.log('Get-User decorator', request.user,"\nCookies :",request.cookies);
+   
+  
     if(data){
         return request.user[data];
     }
