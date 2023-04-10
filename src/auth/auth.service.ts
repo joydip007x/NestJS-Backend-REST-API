@@ -62,7 +62,8 @@ export class AuthService {
       throw new ForbiddenException('Invalid Password');
     }
     delete user.password;
-    const tokens=await this.getTokens(user);
+    // eslint-disable-next-line prefer-const
+    let tokens=await this.getTokens(user);
 
     return tokens;
   }

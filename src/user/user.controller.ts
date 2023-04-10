@@ -40,7 +40,9 @@ export class UserController {
   getNewMe( @Req() req:Request){
       
     console.log('Matching CSRF ',req.body.csrf ,"\n", req.session.csrf);
-    return (req.body.csrf !== req.session.csrf);
+    if(!req.body.csrf || !req.session.csrf || req.body.csrf !== req.session.csrf)
+         return {"a":"CSRF Err"};
+    return "Success";
   }
 
   @UseGuards(JwtGuard)
