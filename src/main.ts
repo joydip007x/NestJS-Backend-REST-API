@@ -29,9 +29,9 @@ async function bootstrap() {
     name: 'session',                              // name of the cookie
     secret: 'MAKE_THIS_SECRET_SECURE',            // key to encode session
     maxAge: 60 * 1000,                  // cookie's lifespan
-    sameSite: 'strict',                              // controls when cookies are sent
+    sameSite: 'lax',                              // controls when cookies are sent
     path: '/',                                    // explicitly set this for security purposes
-    secure: true, // cookie only sent on HTTPS
+   // secure: true, // cookie only sent on HTTPS
     httpOnly: true                                // cookie is not available to JavaScript (client)
   }));
 
