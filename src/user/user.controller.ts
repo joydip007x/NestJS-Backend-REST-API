@@ -42,7 +42,7 @@ export class UserController {
     if( !req.body.csrf || !req.session.csrf || req.body.csrf !== req.session.csrf) 
       return "CSRF token invalid.";
       
-    return {'user':req.user,};
+    return {'user':req.user};
   }
 
   @UseGuards(JwtGuard)
