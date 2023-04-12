@@ -1,0 +1,13 @@
+import { Bookmark } from "bookmark.schema"
+
+model User {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  email String @unique
+  password String
+  refresh_Token String?
+  bookmarks Bookmark[]
+
+@@map("users")
+}

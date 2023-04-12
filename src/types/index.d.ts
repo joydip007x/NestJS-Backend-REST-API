@@ -15,8 +15,12 @@ declare namespace Express {
       refresh_Token: string;
       id: string;
       email: string;
+      [x: string]: any;
     };
     [x: string]: any;
+    User: {
+      [x: string]: any;
+    };
   }
 
   export interface Response {
@@ -25,4 +29,8 @@ declare namespace Express {
       user: any;
     };
   }
+}
+declare module "inputmask-core" {
+  declare class InputMask {}
+  export default InputMask;
 }
