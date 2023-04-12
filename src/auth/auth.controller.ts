@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Controller, Post, Req, Body, Get, UseGuards, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Post, Req, Body, Get, UseGuards, HttpCode, HttpStatus, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Request, Response } from 'express';
 import { AuthDto, TokenAuthDto } from './dto';
@@ -18,8 +18,14 @@ export class AuthController {
 
   @Post('signin')
   @HttpCode(HttpStatus.OK)
-  signin(@Body() dto: AuthDto) {
-    return this.authService.signin(dto);
+  async signin(@Body() dto: AuthDto, @Res() res:Response) {
+    
+    console.log('auth.controllers.signin : ', dto);
+    const data=await this.authService.signin(dto);
+    res.cookie('jwt-token',data.signInToken)
+    res.cookie('jwt-refresh-token',data.refreshToken);
+    return res.send("Success");
+    //return this.authService.signin(dto);
   }
 
   @Post('logout')
